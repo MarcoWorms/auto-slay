@@ -2,6 +2,8 @@
 
 A free deckbuilding roguelike featuring automatic combat and critical decisions
 
+![image](https://user-images.githubusercontent.com/7863230/160218332-f08bfee7-ff5e-4702-bbcc-5f49b2cefeae.png)
+
 ## Game Loop
 
 ### Phase: Class Selection
