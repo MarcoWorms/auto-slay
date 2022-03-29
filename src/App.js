@@ -15,9 +15,6 @@ const GlobalStyle = createGlobalStyle`
 
 const StyledApp = styled.div`
   display: flex;
-  @media only screen and (max-width: 750px) {
-    flex-direction: column;
-  }
 `;
 
 const Container = styled.div`
@@ -28,10 +25,6 @@ const Container = styled.div`
     text-align: center;
     margin: 30px 0px;
   }
-
-  @media only screen and (max-width: 750px) {
-    width: 100% !important;
-  }
 `;
 
 const LineBreak = styled.div`
@@ -41,7 +34,8 @@ const LineBreak = styled.div`
 `;
 
 const SideBar = styled(Container)`
-  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
   border-right: solid 1px #ddd;
   overflow-y: auto;
   /* border-bottom: solid 1px #ddd; */
@@ -57,6 +51,7 @@ const SideBar = styled(Container)`
 `;
 
 const ContentBar = styled(Container)`
+  min-width: 500px;
   width: calc(100vw - 300px);
 `;
 
@@ -74,7 +69,7 @@ const HorizontalChoice = styled.ul`
   img {
     padding: 10px;
     margin-bottom: 10px;
-    height: 16vw;
+    height: 128px;
   }
 
   button {
@@ -138,6 +133,21 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "new game":
       return newGame();
+    case "combat":
+      return {
+        ...state,
+        phase: "combat"
+      };
+    case "shop":
+      return {
+        ...state,
+        phase: "shop"
+      };
+    case "event":
+      return {
+        ...state,
+        phase: "event"
+      };
     default:
       return state;
   }
@@ -149,6 +159,7 @@ export default function App() {
     <StyledApp>
       <GlobalStyle />
       <SideBar>
+        <LineBreak />
         <h1>AutoSlay 0.1</h1>
         <LineBreak />
         <h2>Health: {state.health && "50/50"}</h2>
@@ -194,7 +205,7 @@ export default function App() {
                 Select
               </button>
             </li>
-            {/* <li>
+            <li>
               <h2>Ninja</h2>
               <img src="images/ninja-head.svg" />
               <button disabled>Not Available</button>
@@ -203,7 +214,7 @@ export default function App() {
               <h2>Wizard</h2>
               <img src="images/cowled.svg" />
               <button disabled>Not Available</button>
-            </li> */}
+            </li>
           </HorizontalChoice>
         )}
         {state.phase === "choosing stage" && <h1>Choose a door:</h1>}
@@ -213,27 +224,31 @@ export default function App() {
               <li>
                 <h2>Combat</h2>
                 <img src="images/door-combat.svg" />
-                <button onClick={() => dispatch({ type: "new game" })}>
+                <button onClick={() => dispatch({ type: "combat" })}>
                   Select
                 </button>
               </li>
               <li>
                 <h2>Shop</h2>
                 <img src="images/door-shop.svg" />
-                <button onClick={() => dispatch({ type: "new game" })}>
+                <button onClick={() => dispatch({ type: "shop" })}>
                   Select
                 </button>
               </li>
               <li>
                 <h2>Event</h2>
                 <img src="images/door-event.svg" />
-                <button onClick={() => dispatch({ type: "new game" })}>
+                <button onClick={() => dispatch({ type: "event" })}>
                   Select
                 </button>
               </li>
             </HorizontalChoice>
           </div>
         )}
+        {state.phase === "combat" && <h1>Combat</h1>}
+        {state.phase === "shop" && <h1>Shop</h1>}
+        {state.phase === "event" && <h1>Event</h1>}
+        {state.phase === "select reward" && <h1>Select Reward</h1>}
       </ContentBar>
     </StyledApp>
   );
